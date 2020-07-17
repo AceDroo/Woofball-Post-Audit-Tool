@@ -1,13 +1,13 @@
 # =============== #
 # Unity generated #
 # =============== #
-/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild
+Post Audit Tool/[Tt]emp/
+Post Audit Tool/[Oo]bj/
+Post Audit Tool/[Bb]uild
 /[Bb]uilds/
-/[Ll]ibrary/
-/sysinfo.txt
-/*.stackdump
+Post Audit Tool//[Ll]ibrary/
+sysinfo.txt
+*.stackdump
 /Assets/AssetStoreTools*
-/*.apk
-/*.unitypackage
+*.apk
+*.unitypackage
