@@ -1,13 +1,12 @@
 # =============== #
 # Unity generated #
 # =============== #
-Post Audit Tool/[Tt]emp/
-Post Audit Tool/[Oo]bj/
-Post Audit Tool/[Bb]uild
-/[Bb]uilds/
-Post Audit Tool//[Ll]ibrary/
+Temp/
+Obj/
+Build
+/Builds/
+Library/
 sysinfo.txt
 *.stackdump
 /Assets/AssetStoreTools*
-*.apk
 *.unitypackage
