@@ -1,11 +1,13 @@
 # =============== #
 # Unity generated #
 # =============== #
-Temp/
-Obj/
-Build
-/Builds/
 Library/
+Temp/
+*sln
+*csproj
+Logs/
+obj/
+.idea/
 sysinfo.txt
 *.stackdump
 /Assets/AssetStoreTools*
