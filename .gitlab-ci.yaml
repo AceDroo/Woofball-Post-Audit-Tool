@@ -5,12 +5,8 @@ stages:
 
 unit-test:
   stage: test
-  script: echo 'Testing...'
+  script: "echo 'Testing...'"
 
 unity-build:
   stage: build
-  script: echo 'Building...'
-  
-playstore:
-  stage: deploy
-  script: echo 'Deploying...'
+  script: "echo 'Building...'"
