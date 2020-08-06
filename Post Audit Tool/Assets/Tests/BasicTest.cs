@@ -7,7 +7,7 @@ using UnityEngine.TestTools;
 namespace Tests {
     public class BasicTest {
         [Test]
-        public void BaisSimplePasses()         {
+        public void BaisSimplePasses() {
             Assert.Pass();
         }
     }
