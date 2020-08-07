@@ -8,9 +8,12 @@ public class ButtonListManager : MonoBehaviour {
     private GameObject buttonTemplate;
 
     [SerializeField]
-    private int[] intArray;
+    private string[] objectsList;
 
-    private static List<GameObject> buttons = new List<GameObject>();
+    [SerializeField]
+    private ARObjectManager objectManager;
+
+    public static List<GameObject> buttons = new List<GameObject>();
 
     void GenerateList() {
     	if (buttons.Count > 0) {
@@ -21,14 +24,13 @@ public class ButtonListManager : MonoBehaviour {
     		buttons.Clear();
     	}
 
-    	foreach (int i in intArray) {
+    	foreach (string obj in objectsList) {
     		GameObject button = Instantiate(buttonTemplate) as GameObject;
     		button.SetActive(true);
 
-    		button.GetComponent<ButtonListButton>().setText("Button #" + i);
-
+    		button.GetComponent<ButtonListButton>().setText(obj);
     		button.transform.SetParent(buttonTemplate.transform.parent, false);
-    	
+
     		buttons.Add(button.gameObject);
     	}
     }
@@ -37,6 +39,6 @@ public class ButtonListManager : MonoBehaviour {
     	GenerateList();
     }
     public void buttonClicked(string text) {
-    	Debug.Log(text);
+    	objectManager.ChangeSpawnType(text);
     }
 }

@@ -18,7 +18,7 @@ public class ButtonListButton : MonoBehaviour {
     }
 
     public void OnClick() {
-    	Debug.Log("Pressed button!");
+    	Debug.Log("Pressed " + myTextString);
     	manager.buttonClicked(myTextString);
     }
 }
