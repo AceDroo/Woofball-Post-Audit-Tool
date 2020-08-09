@@ -38,16 +38,21 @@ public class ARObjectManager : MonoBehaviour {
 
     static List<ARRaycastHit> hits = new List<ARRaycastHit>();
 
+    public static ARObjectManager Instance { get; private set; }
+
     void Awake() {
+        if (Instance != null && Instance != this) {
+            Destroy(gameObject);
+        }
+
+        // Save singleton instance
+        Instance = this;
+
         // Set up raycast manager
         raycastManager = GetComponent<ARRaycastManager>();
 
-        // Set up buttons
-        // if (cubeButton != null && sphereButton != null && pelletButton != null) {
-        //     cubeButton.onClick.AddListener(() => ChangeSpawnType("Cube"));
-        //     sphereButton.onClick.AddListener(() => ChangeSpawnType("Sphere"));
-        //     pelletButton.onClick.AddListener(() => ChangeSpawnType("Pellet"));
-        // }
+        // Make sure we dont destroy between scenes
+        DontDestroyOnLoad(gameObject);
     }
  
     void Update() {

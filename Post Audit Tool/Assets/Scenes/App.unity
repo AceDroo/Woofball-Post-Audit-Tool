@@ -262,8 +262,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 441363470b93a3040af0cc3ef6bd7638, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placedPrefab: {fileID: 0}
-  arCamera: {fileID: 0}
+  placedPrefab: {fileID: 2410098359214248815, guid: 5a71cdb3652243c45a8a783279808a9b,
+    type: 3}
+  arCamera: {fileID: 875884724}
   maxPrefabSpawnCount: 0
 --- !u!114 &304760351
 MonoBehaviour:
