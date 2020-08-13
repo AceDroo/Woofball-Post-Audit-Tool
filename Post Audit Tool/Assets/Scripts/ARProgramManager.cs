@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class ARProgramManager : MonoBehaviour {
 	public GameObject settingsPanel;
+    public GameObject suggestionsPanel;
+
+    private bool settingsOpen = false;
+    private bool suggestionsOpen = false;
 
     public void OpenSettings() {
     	// Open the settings menu
@@ -15,6 +19,14 @@ public class ARProgramManager : MonoBehaviour {
 
     	//SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
+    public void OpenSuggestions() {
+        // Open the suggestions menu
+        if (suggestionsPanel != null) {
+            bool isActive = suggestionsPanel.activeSelf;
+            suggestionsPanel.SetActive(!isActive);
+        }
+    }
+
     public void TakeScreenshot() {
     	// Take a screenshot
 
