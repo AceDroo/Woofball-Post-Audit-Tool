@@ -20,15 +20,6 @@ public class ARObjectManager : MonoBehaviour {
     }
 
     [SerializeField]
-    private Button cubeButton;
-
-    [SerializeField]
-    private Button sphereButton; 
-
-    [SerializeField]
-    private Button pelletButton;
-
-    [SerializeField]
     private Camera arCamera;
 
     [SerializeField]
@@ -47,16 +38,21 @@ public class ARObjectManager : MonoBehaviour {
 
     static List<ARRaycastHit> hits = new List<ARRaycastHit>();
 
+    public static ARObjectManager Instance { get; private set; }
+
     void Awake() {
+        if (Instance != null && Instance != this) {
+            Destroy(gameObject);
+        }
+
+        // Save singleton instance
+        Instance = this;
+
         // Set up raycast manager
         raycastManager = GetComponent<ARRaycastManager>();
 
-        // Set up buttons
-        if (cubeButton != null && sphereButton != null && pelletButton != null) {
-            cubeButton.onClick.AddListener(() => ChangeSpawnType("Cube"));
-            sphereButton.onClick.AddListener(() => ChangeSpawnType("Sphere"));
-            pelletButton.onClick.AddListener(() => ChangeSpawnType("Pellet"));
-        }
+        // Make sure we dont destroy between scenes
+        DontDestroyOnLoad(gameObject);
     }
  
     void Update() {
@@ -104,7 +100,7 @@ public class ARObjectManager : MonoBehaviour {
         return false;
     }
 
-    private void ChangeSpawnType(string name) {
+    public void ChangeSpawnType(string name) {
         // Load type of object to spawn
         GameObject loadedObject = Resources.Load<GameObject>($"Prefabs/{name}");
 
