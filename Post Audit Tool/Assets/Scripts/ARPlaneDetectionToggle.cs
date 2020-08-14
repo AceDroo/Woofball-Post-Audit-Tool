@@ -15,18 +15,19 @@ public class ARPlaneDetectionToggle : MonoBehaviour {
 	private void Awake() {
 		planeManager = GetComponent<ARPlaneManager>();
 		if (toggleButtonText != null) {
-			toggleButtonText.text = "Disable";
+			toggleButtonText.text = "Disable Plane Detection";
 		}
 	}
 	public void togglePlaneDetection() {
 		planeManager.enabled = !planeManager.enabled;
+		Debug.Log(planeManager.enabled);
 		string toggleButtonMessage = "";
 
 		if (planeManager.enabled) {
-			toggleButtonMessage = "Disable";
+			toggleButtonMessage = "Disable Plane Detection";
 			SetAllPlanesActive(true);
 		} else {
-			toggleButtonMessage = "Enable";
+			toggleButtonMessage = "Enable Plane Detection";
 			SetAllPlanesActive(false);
 		}
 
