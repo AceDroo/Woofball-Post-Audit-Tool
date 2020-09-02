@@ -29,22 +29,8 @@ public class ARProgramManager : MonoBehaviour {
 
     public void TakeScreenshot() {
     	// Take a screenshot
-
-    	Debug.Log("Screenshot taken!");
+        NativeToolkit.SaveScreenshot("Screenshot", "Post Audit Tool");
     }
 }
 
-// 3using System.Collections;
-// using System.Collections.Generic;
-// using UnityEngine;
-
-// public class PanelOpener : MonoBehaviour {
-// 	public GameObject Panel;
-	
-// 	public void OpenPanel() {
-// 		if (Panel != null) {
-// 			bool isActive = Panel.activeSelf;
-// 			Panel.SetActive(!isActive);
-// 		}
-// 	}
-// }
+// A minimum API level of 16 and target API level of 27 was used during testing for NativeToolkit
