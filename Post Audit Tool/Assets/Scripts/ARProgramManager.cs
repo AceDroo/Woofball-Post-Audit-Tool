@@ -29,7 +29,7 @@ public class ARProgramManager : MonoBehaviour {
 
     public void TakeScreenshot() {
     	// Take a screenshot
-        NativeToolkit.SaveScreenshot("Screenshot", "Post Audit Tool");
+        NativeToolkit.SaveScreenshot("PostAudit", "Post Audit", "png");
     }
 }
 

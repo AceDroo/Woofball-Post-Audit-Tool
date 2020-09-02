@@ -242,10 +242,12 @@ public class NativeToolkit : MonoBehaviour {
 			while(saved == SaveStatus.NOTSAVED) 
 			{
 				count++;
-				if(count > 30) 
+				if(count > 30) {
 					saved = SaveStatus.TIMEOUT;
-				else
+				} else {
 					saved = (SaveStatus)obj.CallStatic<int>("addImageToGallery", path);
+					ShowAlert("Image saved", "Successfully saved screenshot at " + path);
+				}
 				
 				yield return Instance.StartCoroutine(Instance.Wait(.5f));
 			}
