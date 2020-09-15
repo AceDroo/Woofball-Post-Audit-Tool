@@ -1,0 +1,137 @@
+{
+	"propsList": 
+	[
+		{
+			"name": "Cube",
+			"prefab": "Cube"
+		},
+		{
+			"name": "Sphere",
+			"prefab": "Sphere"
+		},
+		{
+			"name": "Pellet",
+			"prefab": "Pellet"
+		},
+		{
+			"name": "Bench (Backrest)",
+			"prefab": "Bench_01"
+		},
+		{
+			"name": "Bench (Regular)",
+			"prefab": "Bench_02"
+		},
+		{
+			"name": "Bench (Set)",
+			"prefab": "Bench_03"
+		},
+		{
+			"name": "Fence (White)",
+			"prefab": "Fence_01"
+		},
+		{
+			"name": "Fence (Brown)",
+			"prefab": "Fence_03"
+		},
+		{
+			"name": "Shrub (Small)",
+			"prefab": "Flower_01"
+		}, 
+		{
+			"name": "Shrub (Large)",
+			"prefab": "Flower_02"
+		},
+		{
+			"name": "Fountain",
+			"prefab": "Fountain_01"
+		},
+		{
+			"name": "Grass A",
+			"prefab": "Grass_01"
+		},
+		{
+			"name": "Grass B",
+			"prefab": "Grass_02"
+		},
+		{
+			"name": "Railing A",
+			"prefab": "HousePart_08"
+		},
+		{
+			"name": "Railing B",
+			"prefab": "HousePart_09"
+		},
+		{
+			"name": "Fire Hydrant",
+			"prefab": "Hydrant"
+		},
+		{
+			"name": "Street Light",
+			"prefab": "Light_01"
+		},
+		{
+			"name": "Traffic Lights",
+			"prefab": "Light_02"
+		},
+		{
+			"name": "Luke",
+			"prefab": "Luke_01"
+		},
+		{
+			"name": "Sign",
+			"prefab": "RoadSign_01"
+		},
+		{
+			"name": "Stop Sign",
+			"prefab": "RoadSign_02"
+		},
+		{
+			"name": "Slow Down Sign",
+			"prefab": "RoadSign_03"
+		},
+		{
+			"name": "Traffic Cone",
+			"prefab": "RoadSign_04"
+		},
+		{
+			"name": "Rock A",
+			"prefab": "Rock_01"
+		},
+		{
+			"name": "Rock B",
+			"prefab": "Rock_02"
+		},
+		{
+			"name": "Ladder",
+			"prefab": "Stairs_01"
+		},
+		{
+			"name": "Table with 4 Chairs",
+			"prefab": "TableSet_01"
+		},
+		{
+			"name": "Table with 2 Chairs",
+			"prefab": "TableSet_02"
+		},
+		{
+			"name": "Trash Can (Small)",
+			"prefab": "Trash_01"
+		},
+		{
+			"name": "Trash Can (Large)",
+			"prefab": "Trash_02"
+		},
+		{
+			"name": "Tree A",
+			"prefab": "Tree_01"
+		},
+		{
+			"name": "Tree B",
+			"prefab": "Tree_02"
+		},
+		{
+			"name": "Tree C",
+			"prefab": "Tree_03"
+		}
+	]
+}
