@@ -1,6 +1,10 @@
 A Post Audit Tool made in Unity using ARFoundation and ARCore
 
-## v0.0.1
+## v0.0.2
+New Features
+ - Adds a Clear Button that removes all placed props from the environment
+
+# v0.0.1
 
 New Features
 - Adds AR camera that visualises the users surroundings 
