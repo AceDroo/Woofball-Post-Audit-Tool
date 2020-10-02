@@ -1,12 +1,110 @@
 stages:
-  - test
-  - build
+  - setup
+  - build_and_test
   - deploy
 
-unit-test:
-  stage: test
-  script: "echo 'Testing...'"
+variables:
+  BUILD_NAME: PostAuditTool
+  UNITY_ACTIVATION_FILE: ./unity3d.alf
+  UNITY_VERSION: 2019.4.2f1
 
-unity-build:
-  stage: build
-  script: "echo 'Building...'"
+image: gableroux/unity3d:$UNITY_VERSION
+
+.unity_before_script: &unity_before_script
+  before_script:
+    - chmod +x ./ci/before_script.sh && ./ci/before_script.sh
+
+.cache: &cache
+  cache:
+    key: "$CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-$TEST_PLATFORM"
+    paths:
+      - Library/
+
+# Run this job when you need to request a license
+# You may need to follow activation steps from documentation
+get-activation-file:
+  when: manual
+  stage: setup
+  script:
+    - chmod +x ./ci/get_activation_file.sh && ./ci/get_activation_file.sh
+  artifacts:
+    paths:
+      - $UNITY_ACTIVATION_FILE
+    expire_in: 10 min # Expiring this as artifacts may contain sensitive data and should not be kept public
+
+.test: &test
+  stage: build_and_test
+  <<: *unity_before_script
+  <<: *cache
+  script:
+    - chmod +x ./ci/test.sh && ./ci/test.sh
+  artifacts:
+    paths:
+      - $(pwd)/$TEST_PLATFORM-results.xml
+      - $(pwd)/$TEST_PLATFORM-coverage/
+  # https://gitlab.com/gableroux/unity3d-gitlab-ci-example/-/issues/83
+  # you may need to remove or replace these to fit your need if you are using your own runners
+  tags:
+    - gitlab-org
+  coverage: /<Linecoverage>(.*?)</Linecoverage>/
+
+test-playmode:
+  <<: *test
+  variables:
+    TEST_PLATFORM: playmode
+
+test-editmode:
+  <<: *test
+  variables:
+    TEST_PLATFORM: editmode
+
+.build: &build
+  stage: build_and_test
+  <<: *unity_before_script
+  <<: *cache
+  script:
+    - pwd
+    - chmod +x ./ci/build.sh && ./ci/build.sh
+  artifacts:
+    paths:
+      - ./Builds/
+  # https://gitlab.com/gableroux/unity3d-gitlab-ci-example/-/issues/83
+  # you may need to remove or replace these to fit your need if you are using your own runners
+  tags:
+    - gitlab-org
+
+build-android:
+  <<: *build
+  image: gableroux/unity3d@sha256:7b8900f749cd04d20e855d7ff0bef779ec745da119aec5b7f2a22fbba44cdce6
+  variables:
+    BUILD_TARGET: Android
+    BUNDLE_VERSION_CODE: $CI_PIPELINE_IID
+    BUILD_APP_BUNDLE: "false"
+
+#deploy-android:
+#  stage: deploy
+#  image: ruby
+#  script: 
+#    - cd ./Builds/Android
+#    - echo $GPC_TOKEN > gpc_token.json
+#    - gem install bundler
+#    - bundle install
+#    - fastlane supply --aab $BUILD_NAME.aab --track internal --package_name com.youcompany.yourgame --json_key ./gpc_token.json
+#  needs: ["build-android"]
+
+build-ios-xcode:
+  <<: *build
+  image: gableroux/unity3d:$UNITY_VERSION-ios
+  variables:
+    BUILD_TARGET: iOS
+
+#build-and-deploy-ios:
+#  stage: deploy
+#  script:
+#    - cd ./Builds/iOS/$BUILD_NAME
+#    - pod install
+#    - fastlane ios beta
+#  tags:
+#    - ios
+#    - mac
+#  needs: ["build-ios-xcode"]
