@@ -4,32 +4,55 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ARProgramManager : MonoBehaviour {
-	public GameObject settingsPanel;
+	public GameObject propsPanel;
+    public GameObject optionsPanel;
+    public GameObject settingsPanel;
     public GameObject suggestionsPanel;
 
     private bool settingsOpen = false;
     private bool suggestionsOpen = false;
 
+    public void OpenPropsManager() {
+        // Open the props manager menu
+        if (propsPanel != null) {
+            if (!suggestionsPanel.activeSelf && !settingsPanel.activeSelf) {
+                bool isActive = propsPanel.activeSelf;
+                propsPanel.SetActive(!isActive);
+            }
+        }
+    }
     public void OpenSettings() {
     	// Open the settings menu
     	if (settingsPanel != null) {
-    		bool isActive = settingsPanel.activeSelf;
-    		settingsPanel.SetActive(!isActive);
+            if (!propsPanel.activeSelf && !suggestionsPanel.activeSelf) {
+                bool isActive = settingsPanel.activeSelf;
+                settingsPanel.SetActive(!isActive);
+            }
+    		
     	}
-
-    	//SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
     public void OpenSuggestions() {
         // Open the suggestions menu
         if (suggestionsPanel != null) {
-            bool isActive = suggestionsPanel.activeSelf;
-            suggestionsPanel.SetActive(!isActive);
+            if (!propsPanel.activeSelf && !settingsPanel.activeSelf) {
+                bool isActive = suggestionsPanel.activeSelf;
+                suggestionsPanel.SetActive(!isActive);
+            }
+            
         }
     }
-
     public void TakeScreenshot() {
+        // Hides the menus
+        if (optionsPanel != null) optionsPanel.SetActive(false);
+        if (propsPanel != null) propsPanel.SetActive(false);
+        if (settingsPanel != null) settingsPanel.SetActive(false);
+        if (suggestionsPanel != null) suggestionsPanel.SetActive(false);
+
     	// Take a screenshot
         NativeToolkit.SaveScreenshot("PostAudit", "Post Audit", "png");
+        
+        // Re-enable options panel
+        optionsPanel.SetActive(true);
     }
 }
 
