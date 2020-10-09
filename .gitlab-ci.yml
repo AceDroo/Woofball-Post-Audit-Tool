@@ -76,6 +76,8 @@ test-editmode:
 build-android:
   <<: *build
   image: gableroux/unity3d@sha256:7b8900f749cd04d20e855d7ff0bef779ec745da119aec5b7f2a22fbba44cdce6
+  only:
+    - master
   variables:
     BUILD_TARGET: Android
     BUNDLE_VERSION_CODE: $CI_PIPELINE_IID
@@ -95,6 +97,8 @@ build-android:
 build-ios-xcode:
   <<: *build
   image: gableroux/unity3d:$UNITY_VERSION-ios
+  only:
+    - master
   variables:
     BUILD_TARGET: iOS
 
