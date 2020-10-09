@@ -36,6 +36,10 @@ public class ARObjectManager : MonoBehaviour {
 
     private bool prefabSelected = false;
 
+    private Color activeColor = Color.blue;
+
+    private Color inactiveColor = Color.white;
+
     static List<ARRaycastHit> hits = new List<ARRaycastHit>();
 
     public static ARObjectManager Instance { get; private set; }
@@ -125,24 +129,19 @@ public class ARObjectManager : MonoBehaviour {
             RaycastHit hitObject;
 
             if (Physics.Raycast(ray, out hitObject)) {
-                /* 
-                if (hitObject.transform.name.Contains("PlacedObject")) {
-                    onTouchHold = true;
-                }
-                */
-
                 // Get last selected object
                 lastSelectedObject = hitObject.transform.GetComponent<PlacementObject>();
 
                 // Check if an object has been selected
                 if (lastSelectedObject != null) {
-                	// Get all placement objects
-                    PlacementObject[] allOtherObjects = FindObjectsOfType<PlacementObject>();
+                    ChangeSelectedObject(lastSelectedObject);
+                	// // Get all placement objects
+                 //    PlacementObject[] allOtherObjects = FindObjectsOfType<PlacementObject>();
                     
-                    // Set selected objects
-                    foreach (PlacementObject placementObject in allOtherObjects) {
-                        placementObject.isSelected = (placementObject == lastSelectedObject);
-                    }
+                 //    // Set selected objects
+                 //    foreach (PlacementObject placementObject in allOtherObjects) {
+                 //        placementObject.isSelected = (placementObject == lastSelectedObject);
+                 //    }
                 }
             }
         }
@@ -178,9 +177,10 @@ public class ARObjectManager : MonoBehaviour {
         placedPrefabCount = 0;
     }
 
-    /*
     private void ChangeSelectedObject(PlacementObject selected) {
-        foreach (PlacementObject current in placedObjects) {
+        foreach (PlacementObject current in placedPrefabList) {
+            MeshRenderer meshRenderer = current.GetComponent<MeshRenderer>();
+            
             if (selected != current) {
                 current.isSelected = false;
                 meshRenderer.material.color = inactiveColor;
@@ -189,5 +189,5 @@ public class ARObjectManager : MonoBehaviour {
                 meshRenderer.material.color = activeColor;
             }
         }
-    }*/
+    }
 }
