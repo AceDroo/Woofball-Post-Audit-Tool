@@ -1,5 +1,9 @@
 A Post Audit Tool made in Unity using ARFoundation and ARCore
 
+[![pipeline status](https://gitlab.com/woofball/post-audit-tool/badges/master/pipeline.svg)](https://gitlab.com//post-audit-tool/commits/master)
+[![coverage report](https://gitlab.com/woofball/post-audit-tool/badges/master/coverage.svg)](https://gitlab.com/woofball/post-audit-tool/-/commits/master)
+[![build status](https://gitlab.com/woofball/post-audit-tool/badges/master/build.svg)](https://gitlab.com/woofball/post-audit-tool/commits/master)
+
 # v0.0.2
 New Features
  - Adds a Clear Button that removes all placed props from the environment
