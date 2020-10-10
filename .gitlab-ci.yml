@@ -23,7 +23,9 @@ image: gableroux/unity3d:$UNITY_VERSION
 # Run this job when you need to request a license
 # You may need to follow activation steps from documentation
 get-activation-file:
-  when: manual
+  rules:
+    - if: '$UNITY_LICENSE_CONTENT == null'
+      when: manual
   stage: setup
   script:
     - chmod +x ./ci/get_activation_file.sh && ./ci/get_activation_file.sh
