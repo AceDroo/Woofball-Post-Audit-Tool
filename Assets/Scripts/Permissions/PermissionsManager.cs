@@ -7,7 +7,7 @@ using UnityEngine.Android;
 #endif
 
 public class PermissionsManager : MonoBehaviour {
-	GameObject dialog = null;
+	GameObject dialog;
 
     void Start() {
     	// Obtain User Permission

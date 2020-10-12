@@ -6,15 +6,17 @@ using System.IO;
 
 public class ButtonListManager : MonoBehaviour {
     [SerializeField]
-    private GameObject buttonTemplate;
+    private GameObject buttonTemplate = null;
 
     [SerializeField]
-    private ARObjectManager objectManager;
+    private ARObjectManager objectManager = null;
     
     public static List<GameObject> buttons = new List<GameObject>();
 
     void Awake() {
-        GenerateList();
+        if (buttonTemplate != null) {
+            GenerateList();
+        }
     }
 
     void GenerateList() {

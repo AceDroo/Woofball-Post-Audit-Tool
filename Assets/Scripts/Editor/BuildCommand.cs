@@ -1,10 +1,9 @@
-using UnityEditor;
+﻿using UnityEditor;
 using System.Linq;
 using System;
 using System.IO;
 
-static class BuildCommand
-{
+public static class BuildCommand {
     private const string KEYSTORE_PASS  = "KEYSTORE_PASS";
     private const string KEY_ALIAS_PASS = "KEY_ALIAS_PASS";
     private const string KEY_ALIAS_NAME = "KEY_ALIAS_NAME";
@@ -14,21 +13,17 @@ static class BuildCommand
     private const string ANDROID_APP_BUNDLE = "BUILD_APP_BUNDLE";
     private const string SCRIPTING_BACKEND_ENV_VAR = "SCRIPTING_BACKEND";
 
-    static string GetArgument(string name)
-    {
+    static string GetArgument(string name) {
         string[] args = Environment.GetCommandLineArgs();
-        for (int i = 0; i < args.Length; i++)
-        {
-            if (args[i].Contains(name))
-            {
+        for (int i = 0; i < args.Length; i++) {
+            if (args[i].Contains(name)) {
                 return args[i + 1];
             }
         }
         return null;
     }
 
-    static string[] GetEnabledScenes()
-    {
+    static string[] GetEnabledScenes() {
         return (
             from scene in EditorBuildSettings.scenes
             where scene.enabled
@@ -37,19 +32,17 @@ static class BuildCommand
         ).ToArray();
     }
 
-    static BuildTarget GetBuildTarget()
-    {
+    static BuildTarget GetBuildTarget() {
         string buildTargetName = GetArgument("customBuildTarget");
         Console.WriteLine(":: Received customBuildTarget " + buildTargetName);
 
-        if (buildTargetName.ToLower() == "android")
-        {
-#if !UNITY_5_6_OR_NEWER
-			// https://issuetracker.unity3d.com/issues/buildoptions-dot-acceptexternalmodificationstoplayer-causes-unityexception-unknown-project-type-0
-			// Fixed in Unity 5.6.0
-			// side effect to fix android build system:
-			EditorUserBuildSettings.androidBuildSystem = AndroidBuildSystem.Internal;
-#endif
+        if (buildTargetName.ToLower() == "android") {
+            #if !UNITY_5_6_OR_NEWER
+            // https://issuetracker.unity3d.com/issues/buildoptions-dot-acceptexternalmodificationstoplayer-causes-unityexception-unknown-project-type-0
+            // Fixed in Unity 5.6.0
+            // side effect to fix android build system:
+            EditorUserBuildSettings.androidBuildSystem = AndroidBuildSystem.Internal;
+            #endif
         }
 
         if (buildTargetName.TryConvertToEnum(out BuildTarget target))
@@ -60,44 +53,38 @@ static class BuildCommand
         return BuildTarget.NoTarget;
     }
 
-    static string GetBuildPath()
-    {
+    static string GetBuildPath() {
         string buildPath = GetArgument("customBuildPath");
         Console.WriteLine(":: Received customBuildPath " + buildPath);
-        if (buildPath == "")
-        {
+        if (buildPath == "") {
             throw new Exception("customBuildPath argument is missing");
         }
         return buildPath;
     }
 
-    static string GetBuildName()
-    {
+    static string GetBuildName() {
         string buildName = GetArgument("customBuildName");
         Console.WriteLine(":: Received customBuildName " + buildName);
-        if (buildName == "")
-        {
+        if (buildName == "") {
             throw new Exception("customBuildName argument is missing");
         }
         return buildName;
     }
 
-    static string GetFixedBuildPath(BuildTarget buildTarget, string buildPath, string buildName)
-    {
+    static string GetFixedBuildPath(BuildTarget buildTarget, string buildPath, string buildName) {
         if (buildTarget.ToString().ToLower().Contains("windows")) {
             buildName += ".exe";
         } else if (buildTarget == BuildTarget.Android) {
-#if UNITY_2018_3_OR_NEWER
+            #if UNITY_2018_3_OR_NEWER
             buildName += EditorUserBuildSettings.buildAppBundle ? ".aab" : ".apk";
-#else
+            #else
             buildName += ".apk";
-#endif
+            #endif
         }
         return buildPath + buildName;
     }
 
-    static BuildOptions GetBuildOptions()
-    {
+    static BuildOptions GetBuildOptions() {
         if (TryGetEnv(BUILD_OPTIONS_ENV_VAR, out string envVar)) {
             string[] allOptionVars = envVar.Split(',');
             BuildOptions allOptions = BuildOptions.None;
@@ -112,12 +99,10 @@ static class BuildCommand
 
                 if (optionVar.TryConvertToEnum(out option)) {
                     allOptions |= option;
-                }
-                else {
+                } else {
                     Console.WriteLine($":: Cannot convert {optionVar} to {nameof(BuildOptions)} enum, skipping it.");
                 }
             }
-
             return allOptions;
         }
 
@@ -125,10 +110,8 @@ static class BuildCommand
     }
 
     // https://stackoverflow.com/questions/1082532/how-to-tryparse-for-enum-value
-    static bool TryConvertToEnum<TEnum>(this string strEnumValue, out TEnum value)
-    {
-        if (!Enum.IsDefined(typeof(TEnum), strEnumValue))
-        {
+    static bool TryConvertToEnum<TEnum>(this string strEnumValue, out TEnum value) {
+        if (!Enum.IsDefined(typeof(TEnum), strEnumValue)) {
             value = default;
             return false;
         }
@@ -137,8 +120,7 @@ static class BuildCommand
         return true;
     }
 
-    static bool TryGetEnv(string key, out string value)
-    {
+    static bool TryGetEnv(string key, out string value) {
         value = Environment.GetEnvironmentVariable(key);
         return !string.IsNullOrEmpty(value);
     }
@@ -159,8 +141,7 @@ static class BuildCommand
         }
     }
 
-    static void PerformBuild()
-    {
+    static void PerformBuild() {
         Console.WriteLine(":: Performing build");
 
         var buildTarget = GetBuildTarget();
@@ -186,46 +167,35 @@ static class BuildCommand
         Console.WriteLine(":: Done with build");
     }
 
-    private static void HandleAndroidAppBundle()
-    {
-        if (TryGetEnv(ANDROID_APP_BUNDLE, out string value))
-        {
-#if UNITY_2018_3_OR_NEWER
-            if (bool.TryParse(value, out bool buildAppBundle))
-            {
+    private static void HandleAndroidAppBundle() {
+        if (TryGetEnv(ANDROID_APP_BUNDLE, out string value)) {
+            #if UNITY_2018_3_OR_NEWER
+            if (bool.TryParse(value, out bool buildAppBundle)) {
                 EditorUserBuildSettings.buildAppBundle = buildAppBundle;
                 Console.WriteLine($":: {ANDROID_APP_BUNDLE} env var detected, set buildAppBundle to {value}.");
-            }
-            else
-            {
+            } else {
                 Console.WriteLine($":: {ANDROID_APP_BUNDLE} env var detected but the value \"{value}\" is not a boolean.");
-
             }
-#else
+            #else
             Console.WriteLine($":: {ANDROID_APP_BUNDLE} env var detected but does not work with lower Unity version than 2018.3");
-#endif
+            #endif
         }
     }
 
-    private static void HandleAndroidBundleVersionCode()
-    {
-        if (TryGetEnv(ANDROID_BUNDLE_VERSION_CODE, out string value))
-        {
-            if (int.TryParse(value, out int version))
-            {
+    private static void HandleAndroidBundleVersionCode() {
+        if (TryGetEnv(ANDROID_BUNDLE_VERSION_CODE, out string value)) {
+            if (int.TryParse(value, out int version)) {
                 PlayerSettings.Android.bundleVersionCode = version;
                 Console.WriteLine($":: {ANDROID_BUNDLE_VERSION_CODE} env var detected, set the bundle version code to {value}.");
-            }
-            else
+            } else
                 Console.WriteLine($":: {ANDROID_BUNDLE_VERSION_CODE} env var detected but the version value \"{value}\" is not an integer.");
         }
     }
 
-    private static void HandleAndroidKeystore()
-    {
-#if UNITY_2019_1_OR_NEWER
+    private static void HandleAndroidKeystore() {
+        #if UNITY_2019_1_OR_NEWER
         PlayerSettings.Android.useCustomKeystore = false;
-#endif
+        #endif
 
         if (!File.Exists(KEYSTORE)) {
             Console.WriteLine($":: {KEYSTORE} not found, skipping setup, using Unity's default keystore");
@@ -253,9 +223,9 @@ static class BuildCommand
             Console.WriteLine($":: ${KEY_ALIAS_PASS} env var not set, skipping setup, using Unity's default keystore");
             return;
         }
-#if UNITY_2019_1_OR_NEWER
+        #if UNITY_2019_1_OR_NEWER
         PlayerSettings.Android.useCustomKeystore = true;
-#endif
+        #endif
         PlayerSettings.Android.keystorePass = keystorePass;
         PlayerSettings.Android.keyaliasPass = keystoreAliasPass;
     }
