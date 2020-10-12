@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class ButtonListButton : MonoBehaviour {
     [SerializeField]
-    private Text myText;
+    private Text myText = null;
 
     [SerializeField]
-    private ButtonListManager manager;
+    private ButtonListManager manager = null;
 
     private string myTextString;
     private string myPrefab;
