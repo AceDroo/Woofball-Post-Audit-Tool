@@ -2,7 +2,6 @@ A Post Audit Tool made in Unity using ARFoundation and ARCore
 
 [![pipeline status](https://gitlab.com/woofball/post-audit-tool/badges/master/pipeline.svg)](https://gitlab.com//post-audit-tool/commits/master)
 [![coverage report](https://gitlab.com/woofball/post-audit-tool/badges/master/coverage.svg)](https://gitlab.com/woofball/post-audit-tool/-/commits/master)
-[![build Status](https://travis-ci.com/woofball/post-audit-tool.svg?branch=master)](https://travis-ci.com/woofball/post-audit-tool)
 
 # v0.0.2
 New Features
