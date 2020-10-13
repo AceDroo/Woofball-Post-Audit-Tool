@@ -2,12 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.XR.ARFoundation;
+using UnityEngine.XR.ARSubsystems;
 
 public class ARProgramManager : MonoBehaviour {
 	public GameObject propsPanel;
     public GameObject optionsPanel;
     public GameObject settingsPanel;
     public GameObject suggestionsPanel;
+    public GameObject propEditPanel;
+    public Slider rotationSlider;
+    public Slider scaleSlider;
+    public ARSessionOrigin session;
+
+    private ARObjectManager manager;
+
+    void Start() {
+        // If ARSessionOrigin is loaded, get ARObjectManager component
+        if (session != null) {
+            manager = session.GetComponent<ARObjectManager>();
+        }
+    }
+
+    void Update() {
+        if (manager.IsPropSelected()) {
+            if (propEditPanel != null) {
+                if (!settingsPanel.activeSelf && !suggestionsPanel.activeSelf && !propsPanel.activeSelf) {
+                    bool isActive = propEditPanel.activeSelf;
+                    propEditPanel.SetActive(!isActive);
+                }
+            }
+        }
+    }
 
     public void OpenPropsManager() {
         // Open the props manager menu
@@ -50,6 +77,24 @@ public class ARProgramManager : MonoBehaviour {
         
         // Re-enable options panel
         optionsPanel.SetActive(true);
+    }
+    public void ScaleObject() {
+        if (scaleSlider != null && manager != null) {
+            // Get value of slider
+            float val = scaleSlider.value;
+
+            // Update scale
+            manager.ScaleSelectedObject(val);
+        }
+    }
+    public void RotateObject() {
+        if (rotationSlider != null && manager != null) {
+            // Get value of slider
+            float val = rotationSlider.value;
+
+            // Update rotation
+            manager.RotateSelectedObject(val);            
+        }
     }
 }
 

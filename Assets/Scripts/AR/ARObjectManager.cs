@@ -45,6 +45,8 @@ public class ARObjectManager : MonoBehaviour {
 
     public static ARObjectManager Instance { get; private set; }
 
+    private float previousAngle;
+
     void Awake() {
         if (Instance != null && Instance != this) {
             Destroy(gameObject);
@@ -152,6 +154,31 @@ public class ARObjectManager : MonoBehaviour {
             lastSelectedObject.isSelected = false;
             // onTouchHold = false;
         }
+    }
+
+    public bool IsPropSelected() {
+        return (lastSelectedObject != null && lastSelectedObject.isSelected);
+    }
+
+    public void ScaleSelectedObject(float size) {
+    	Debug.Log(Vector3.one * size);
+    	if (lastSelectedObject != null && lastSelectedObject.isSelected) {
+    		lastSelectedObject.transform.parent.localScale = Vector3.one * size;
+    	}
+    }
+
+    public void RotateSelectedObject(float angle) {
+    	float delta = angle - previousAngle;
+    	Debug.Log(Vector3.right * delta * 360);
+
+    	if (lastSelectedObject != null && lastSelectedObject.isSelected) {
+    		// Determine how much the rotation has changed and change the rotation
+    		//float delta = angle - previousAngle;
+    		lastSelectedObject.transform.Rotate(Vector3.right * delta * 360);
+
+    		// Update the previous rotation
+    		previousAngle = angle;
+    	}
     }
 
     private void spawnObject(Pose hitPose) {
