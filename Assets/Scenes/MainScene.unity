@@ -883,7 +883,7 @@ MonoBehaviour:
   optionsPanel: {fileID: 2119312075035484279}
   settingsPanel: {fileID: 2832903307827343480}
   suggestionsPanel: {fileID: 5840693825154582475}
-  propEditPanel: {fileID: 0}
+  propEditPanel: {fileID: 190337476}
   rotationSlider: {fileID: 1387622864}
   scaleSlider: {fileID: 1820640144}
   session: {fileID: 451612600}
