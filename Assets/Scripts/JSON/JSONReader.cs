@@ -10,9 +10,9 @@ public class JSONReader : MonoBehaviour {
     private string filepath;
     private string json;
 
-    #if UNITY_ANDROID
-    private UnityWebRequest www;
-    #endif
+    // #if UNITY_ANDROID
+    // private UnityWebRequest www;
+    // #endif
 
     public string LoadJSON() {
         // Get JSON file path
@@ -32,7 +32,6 @@ public class JSONReader : MonoBehaviour {
         #elif UNITY_ANDROID
         if (filepath.Contains("://") || filepath.Contains(":///")) {
             StartCoroutine(AndroidLoadJSON(filepath));
-            json = www.text;
         }
         #endif
 
@@ -44,9 +43,16 @@ public class JSONReader : MonoBehaviour {
 
     #if UNITY_ANDROID
     IEnumerator AndroidLoadJSON(string jsonURL) {
-        www = new UnityWebRequest.Get(jsonURL);
+        using (UnityWebRequest www = UnityWebRequest.Get(jsonURL)) {
+            // Request and wait for desired page
+            yield return www.SendWebRequest();
 
-        yield return www.Send();
+            if (www.isNetworkError) {
+                Debug.Log("Error: " + www.error);
+            } else {
+                json = www.downloadHandler.text;
+            }
+        }
     }
     #endif
 }
