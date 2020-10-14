@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using System.IO;
 
 public class JSONReader : MonoBehaviour {
@@ -10,7 +11,7 @@ public class JSONReader : MonoBehaviour {
     private string json;
 
     #if UNITY_ANDROID
-    private WWW reader;
+    private UnityWebRequest www;
     #endif
 
     public string LoadJSON() {
@@ -31,7 +32,7 @@ public class JSONReader : MonoBehaviour {
         #elif UNITY_ANDROID
         if (filepath.Contains("://") || filepath.Contains(":///")) {
             StartCoroutine(AndroidLoadJSON(filepath));
-            json = reader.text;
+            json = www.text;
         }
         #endif
 
@@ -43,9 +44,9 @@ public class JSONReader : MonoBehaviour {
 
     #if UNITY_ANDROID
     IEnumerator AndroidLoadJSON(string jsonURL) {
-        reader = new WWW(jsonURL);
+        www = new UnityWebRequest.Get(jsonURL);
 
-        yield return reader;
+        yield return www.Send();
     }
     #endif
 }
