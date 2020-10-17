@@ -6,53 +6,35 @@ using System.IO;
 
 public class JSONReader : MonoBehaviour {
     public string filename;
-
-    private string filepath;
     private string json;
 
-    // #if UNITY_ANDROID
-    // private UnityWebRequest www;
-    // #endif
+    // public string GetFilePath(string filename) {
+    //     string filepath;
+    //     #if UNITY_EDITOR
+    //     filepath = Path.Combine(Application.streamingAssetsPath, filename + ".json");
+    //     #elif UNITY_IOS
+    //     filepath = Path.Combine(Application.streamingAssetsPath + "/Raw", filename + ".json");
+    //     #elif UNITY_ANDROID
+    //     filepath = Path.Combine(Application.streamingAssetsPath, filename + ".json");
+    //     #endif
+
+    //     return filepath;
+    // }
 
     public string LoadJSON() {
-        // Get JSON file path
-        #if UNITY_EDITOR
-        filepath = Path.Combine(Application.streamingAssetsPath, filename + ".json");
-        #elif UNITY_IOS
-        filepath = Path.Combine(Application.streamingAssetsPath + "/Raw", filename + ".json");
-        #elif UNITY_ANDROID
-        filepath = Path.Combine(Application.streamingAssetsPath, filename + ".json");
-        #endif
-
         // Read in JSON data
-        #if UNITY_EDITOR || UNITY_IOS
-        if (File.Exists(filepath)) {
-            json = File.ReadAllText(filepath);
-        }
-        #elif UNITY_ANDROID
-        if (filepath.Contains("://") || filepath.Contains(":///")) {
-            StartCoroutine(AndroidLoadJSON(filepath));
-        }
-        #endif
-
-        Debug.Log(json);
+        var jsonTextFile = Resources.Load<TextAsset>("Text/" + filename);
+        json = jsonTextFile.text;
 
         // Return loaded JSON string
         return json;
     }
-
-    #if UNITY_ANDROID
-    IEnumerator AndroidLoadJSON(string jsonURL) {
-        using (UnityWebRequest www = UnityWebRequest.Get(jsonURL)) {
-            // Request and wait for desired page
-            yield return www.SendWebRequest();
-
-            if (www.isNetworkError) {
-                Debug.Log("Error: " + www.error);
-            } else {
-                json = www.downloadHandler.text;
-            }
-        }
-    }
-    #endif
+    // #if UNITY_ANDROID
+    // IEnumerator AndroidLoadJSON(string jsonURL) {
+    //     using (WWW reader = new WWW(jsonURL)) {
+    //         yield return reader;
+    //         json = reader.text;
+    //     }
+    // }
+    // #endif
 }
