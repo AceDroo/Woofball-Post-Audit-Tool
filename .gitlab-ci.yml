@@ -89,7 +89,7 @@ build-android:
   variables:
     BUILD_TARGET: Android
     BUNDLE_VERSION_CODE: $CI_PIPELINE_IID
-    BUILD_APP_BUNDLE: "false"
+    BUILD_APP_BUNDLE: "true"
 
 #deploy-android:
 #  stage: deploy
