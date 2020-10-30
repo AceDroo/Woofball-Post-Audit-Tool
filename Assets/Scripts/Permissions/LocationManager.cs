@@ -2,14 +2,47 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+#if PLATFORM_ANDROID
+using UnityEngine.Android;
+#endif
+
 public class LocationManager : MonoBehaviour
 {
+	GameObject dialog;
+
     void Start()
     {
-        GetLocation();
+    	// Obtain User Permission
+        #if PLATFORM_ANDROID
+    	if (!Permission.HasUserAuthorizedPermission(Permission.FineLocation)) {
+    		Permission.RequestUserPermission(Permission.FineLocation);
+    		dialog = new GameObject();
+    	} else {
+            StartCoroutine("FindLocation");
+    	}
+        #endif
     }
 
-    IEnumerator GetLocation() 
+    void OnGUI() {
+    	#if PLATFORM_ANDROID
+    	if (!Permission.HasUserAuthorizedPermission(Permission.FineLocation)) {
+    		// User has denied permission to use camera. Display message
+    		dialog.AddComponent<LocationPermissionDialog>();
+    		return;
+    	} else if (dialog != null) {
+    		Destroy(dialog);
+    	}
+    	#endif
+    }
+
+    #if PLATFORM_ANDROID
+    public void GetLocation() {
+        StartCoroutine("FindLocation");
+    }
+    #endif
+
+    #if PLATFORM_ANDROID
+    IEnumerator FindLocation() 
     {
         // First, check if user has location service enabled
         if (!Input.location.isEnabledByUser)
@@ -54,4 +87,5 @@ public class LocationManager : MonoBehaviour
         // Stop service if there is no need to query location updates continuously
         Input.location.Stop();
     }
+    #endif
 }
