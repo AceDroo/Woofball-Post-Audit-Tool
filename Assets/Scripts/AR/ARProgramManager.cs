@@ -12,6 +12,7 @@ public class ARProgramManager : MonoBehaviour {
     public GameObject settingsPanel;
     public GameObject suggestionsPanel;
     public GameObject propEditPanel;
+    public GameObject auditsPanel;
     public Slider rotationSlider;
     public Slider scaleSlider;
     public ARSessionOrigin session;
@@ -45,6 +46,7 @@ public class ARProgramManager : MonoBehaviour {
             }
         }
     }
+
     public void OpenSettings() {
     	// Open the settings menu
     	if (settingsPanel != null) {
@@ -55,22 +57,35 @@ public class ARProgramManager : MonoBehaviour {
     		
     	}
     }
+
     public void OpenSuggestions() {
         // Open the suggestions menu
         if (suggestionsPanel != null) {
-            if (!propsPanel.activeSelf && !settingsPanel.activeSelf) {
+            if (!auditsPanel.activeSelf && !settingsPanel.activeSelf) {
                 bool isActive = suggestionsPanel.activeSelf;
                 suggestionsPanel.SetActive(!isActive);
             }
             
         }
     }
+
+    public void OpenAudits() {
+        // Open the Audits menu
+        if (auditsPanel != null) {
+            if (!settingsPanel.activeSelf) {
+                bool isActive = auditsPanel.activeSelf;
+                auditsPanel.SetActive(!isActive);
+            }
+        }
+    }
+
     public void TakeScreenshot() {
         // Hides the menus
         if (optionsPanel != null) optionsPanel.SetActive(false);
         if (propsPanel != null) propsPanel.SetActive(false);
         if (settingsPanel != null) settingsPanel.SetActive(false);
         if (suggestionsPanel != null) suggestionsPanel.SetActive(false);
+        if (auditsPanel != null) auditsPanel.SetActive(false);
 
     	// Take a screenshot
         NativeToolkit.SaveScreenshot("PostAudit", "Post Audit", "png");
