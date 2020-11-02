@@ -43,23 +43,11 @@ public class ARObjectManager : MonoBehaviour {
 
     static List<ARRaycastHit> hits = new List<ARRaycastHit>();
 
-    public static ARObjectManager Instance { get; private set; }
-
     private float previousAngle;
 
     void Awake() {
-        if (Instance != null && Instance != this) {
-            Destroy(gameObject);
-        }
-
-        // Save singleton instance
-        Instance = this;
-
         // Set up raycast manager
         raycastManager = GetComponent<ARRaycastManager>();
-
-        // Make sure we dont destroy between scenes
-        DontDestroyOnLoad(gameObject);
     }
  
     void Update() {
