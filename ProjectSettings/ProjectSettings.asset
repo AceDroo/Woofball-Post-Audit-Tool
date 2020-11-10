@@ -243,8 +243,8 @@ PlayerSettings:
   AndroidTargetArchitectures: 2
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Users/deroo/OneDrive/Desktop/post-audit-key.keystore
-  AndroidKeyaliasName: woofball pat
+  AndroidKeystoreName: C:/Users/deroo/OneDrive/Desktop/user.keystore
+  AndroidKeyaliasName: woofballpat
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0
   AndroidIsGame: 1
