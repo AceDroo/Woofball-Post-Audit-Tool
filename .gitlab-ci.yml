@@ -8,9 +8,11 @@ stages:
 variables:
   BUILD_NAME: PostAuditTool
   UNITY_ACTIVATION_FILE: ./unity3d.alf
-  UNITY_VERSION: 2019.4.2f1
+  UNITY_VERSION: "2019.4.2f1"
+  IMAGE: unityci/editor   # https://hub.docker.com/r/unityci/editor
+  IMAGE_VERSION: "0.7"
 
-image: gableroux/unity3d:$UNITY_VERSION
+image: $IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
 
 .unity_before_script: &unity_before_script
   before_script:
@@ -24,14 +26,14 @@ image: gableroux/unity3d:$UNITY_VERSION
 
 .license: &license
   rules:
-    - if: '$UNITY_LICENSE_CONTENT != null'
+    - if: '$UNITY_LICENSE != null'
       when: always
 
 # run this job when you need to request a license
 # you may need to follow activation steps from documentation
 get-activation-file:
   rules:
-    - if: '$UNITY_LICENSE_CONTENT == null'
+    - if: '$UNITY_LICENSE == null'
       when: manual
   stage: setup
   script:
@@ -85,7 +87,7 @@ test-editmode:
 
 build-android:
   <<: *build
-  image: gableroux/unity3d@sha256:7b8900f749cd04d20e855d7ff0bef779ec745da119aec5b7f2a22fbba44cdce6
+  image: $IMAGE:$UNITY_VERSION-android-$IMAGE_VERSION
   variables:
     BUILD_TARGET: Android
     BUNDLE_VERSION_CODE: $CI_PIPELINE_IID
@@ -104,7 +106,7 @@ build-android:
 
 build-ios-xcode:
   <<: *build
-  image: gableroux/unity3d:$UNITY_VERSION-ios
+  image: $IMAGE:$UNITY_VERSION-ios-$IMAGE_VERSION
   variables:
     BUILD_TARGET: iOS
 
